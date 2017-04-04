@@ -144,7 +144,7 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
               });
             },
             onSubmitted: _handleSubmitted,
-            decoration: new InputDecoration(hintText: "Send a message"),
+            decoration: new InputDecoration.collapsed(hintText: "Send a message"),
           ),
         ),
         new Container(

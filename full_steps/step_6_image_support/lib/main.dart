@@ -43,6 +43,10 @@ Future<Null> _ensureLoggedIn() async {
   GoogleSignInAccount user = googleSignIn.currentUser;
   if (user == null)
     user = await googleSignIn.signInSilently();
+  if (user == null) {
+    user = await googleSignIn.signIn();
+    analytics.logLogin();
+  }
   if (auth.currentUser == null || auth.currentUser.isAnonymous) {
     GoogleSignInAuthentication credentials =
     await googleSignIn.currentUser.authentication;
@@ -50,7 +54,6 @@ Future<Null> _ensureLoggedIn() async {
       idToken: credentials.idToken,
       accessToken: credentials.accessToken,
     );
-    analytics.logLogin();
   }
 }
 
@@ -85,22 +88,22 @@ class ChatMessage extends StatelessWidget {
           children: <Widget>[
             new Container(
               margin: const EdgeInsets.only(right: 16.0),
-              child: new GoogleUserCircleAvatar(snapshot.value['senderPhotoUrl']),     //modified
+              child: new GoogleUserCircleAvatar(snapshot.value['senderPhotoUrl']),
             ),
             new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Text(
-                    snapshot.value['senderName'],                  //modified
+                    snapshot.value['senderName'],
                     style: Theme.of(context).textTheme.subhead),
                 new Container(
                   margin: const EdgeInsets.only(top: 5.0),
                   child: snapshot.value['imageUrl'] != null ?
                     new Image.network(
-                    snapshot.value['imageUrl'],
+                      snapshot.value['imageUrl'],
                       width: 250.0,
-                  ) :
-                  new Text(snapshot.value['text']),
+                    ) :
+                    new Text(snapshot.value['text']),
                 ),
               ],
             ),
@@ -218,6 +221,9 @@ class ChatScreenState extends State<ChatScreen> {
 
   Future<Null> _handleSubmitted(String text) async {
     _textController.clear();
+    setState(() {
+      _isComposing = false;
+    });
     await _ensureLoggedIn();
     _sendMessage(text: text);
   }

@@ -104,40 +104,46 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  Widget _buildTextComposer() {
-   return new Container(
-       margin: const EdgeInsets.symmetric(horizontal: 8.0),
-       child: new Row(
-          children: <Widget>[
+   Widget _buildTextComposer() {
+    return new IconTheme(
+      data: new IconThemeData(color: Theme.of(context).accentColor),
+      child: new Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: new Row(children: <Widget>[
             new Flexible(
               child: new TextField(
                 controller: _textController,
-                onChanged: (String text)  {                //new
+                onChanged: (String text) {
                   setState(() {
                     _isComposing = text.length > 0;
                   });
                 },
                 onSubmitted: _handleSubmitted,
-                decoration: new InputDecoration.collapsed(
-                hintText: "Send a message"),
+                decoration:
+                    new InputDecoration.collapsed(hintText: "Send a message"),
               ),
             ),
             new Container(
-              margin: new EdgeInsets.symmetric(horizontal: 4.0),
-              child: Theme.of(context).platform == TargetPlatform.iOS ?
-              new CupertinoButton(
-                child: new Text("Send"),
-                onPressed: _isComposing
-                    ? () =>  _handleSubmitted(_textController.text)
-                    : null,) :
-              new IconButton(
-                  icon: new Icon(Icons.send),
-                  onPressed: _isComposing ?
-                      () =>  _handleSubmitted(_textController.text) : null,
-                  )
-              ),
-         ]
-       )
+                margin: new EdgeInsets.symmetric(horizontal: 4.0),
+                child: Theme.of(context).platform == TargetPlatform.iOS
+                    ? new CupertinoButton(
+                        child: new Text("Send"),
+                        onPressed: _isComposing
+                            ? () => _handleSubmitted(_textController.text)
+                            : null,
+                      )
+                    : new IconButton(
+                        icon: new Icon(Icons.send),
+                        onPressed: _isComposing
+                            ? () => _handleSubmitted(_textController.text)
+                            : null,
+                      )),
+          ]),
+          decoration: Theme.of(context).platform == TargetPlatform.iOS
+              ? new BoxDecoration(
+                  border:
+                      new Border(top: new BorderSide(color: Colors.grey[200])))
+              : null),
     );
   }
 

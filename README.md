@@ -1,8 +1,9 @@
 # Friendlychat for Flutter
 
 This is the source code for the Flutter FriendlyChat codelab. It includes the
-offline and Firebase versions of the code. Codelab instructions will be
-made available soon.
+offline and Firebase versions of the code. 
+
+[Codelab instructions](https://github.com/flutter/friendlychat-steps/files/2296209/OriginalFirebaseforFlutterCodelab.pdf "Original Firebase for Flutter Codelab")
 
 The offline version of Friendlychat requires only a recent copy of Flutter.
 The Firebase version of Friendlychat requires that you register your Android app's
